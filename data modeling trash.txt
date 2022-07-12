@@ -1,0 +1,127 @@
+Brainstorming
+users can sign into the app with their email and password
+users can create recipes with ingredients and instructions
+recipes can be marked as public or private
+users can view other people’s recipes
+ingredients from recipes can be added to user’s grocery lists
+users can create their own occasions and assign recipes to occasions
+
+Users
+	userID = primary key
+	Email = varchar(25)
+	Password = varchar(25)
+Recipes
+	recipeID = primary key
+	userID = key from userTable
+	Ingredients = key from ingredientTable
+	Instructions = text
+	Private/ Public = bool
+Grocery Lists
+	groceryListID = primary key
+	userID = key from userTable
+	IngredientsID = key from ingredientTable
+Occasions
+	Date = date
+	RecipesID = key from recipesTable
+	occasionID = primary key
+	userID = key from userTable
+Ingredients - List all ingredients everywhere forever
+	IngredientID = primary key
+	Name = varchar(20)
+
+Table Ideas
+Users -Add the information for a profile for the account
+userID
+Email
+Password
+Recipes -will contain instructions for each of the individual recipes
+recipeID
+userID
+IngredientID = key from ingredientsTable
+Instructions = text
+Private/ Public = bool
+Grocery Lists -refers to the ingredients that can be added from the required ingredients in the recipe
+userID
+IngredientID = key from ingredientsTable
+Occasions - a specific day that we want a recipe for
+Date
+RecipeID
+Ingredients - List all ingredients everywhere forever
+IngredientID = primary key
+Name = varchar(20)
+
+Relationships
+
+One to one
+
+
+
+One to many
+Users to recipes
+Users to lists
+Users to occasions
+Recipes to occasions
+
+Many to many
+Ingredients to Recipes
+Ingredients to everything else
+Ingredients to grocery lists
+
+COLUMNS
+
+ALL ID ITEMS NEED TO BE SERIAL PRIMARY KEYS, UNLESS REFERENCED. Period the end.
+
+Email = VARCHAR 
+There’s a limit to what humans will name their email addresses.
+
+Password = VARCHAR
+There’s a limit to what humans will type out for passwords.
+
+Instructions = TEXT
+This can run on and on. We’ll likely need a large field for many recipes, and even that won’t be enough for some.
+
+Private = BOOL
+A true/false flag to determine whether a recipe is public or private.
+
+OccasionDate = DATE
+When you want to have an occasion.
+
+Name = VARCHAR
+The name of the ingredient.
+
+
+
+SQL CODE
+CREATE TABLE users (
+  user_id SERIAL PRIMARY KEY,
+  email VARCHAR(50),
+  password VARCHAR(16)
+ );
+ 
+ CREATE TABLE recipe (
+   recipe_id SERIAL PRIMARY KEY,
+   user_id INTEGER NOT NULL REFERENCES user(user_id)
+   ingredient_id INTEGER NOT NULL REFERENCES ingredients(ingredient_id),
+   instructions TEXT,
+   private BOOL
+);
+ 
+CREATE TABLE groceryList (
+   groceryList_id SERIAL PRIMARY KEY,
+   user_id INTEGER NOT NULL REFERENCES user(user_id)
+   ingredient_id INTEGER NOT NULL REFERENCES ingredients(ingredient_id),
+);
+
+CREATE TABLE occasions (
+  occasion_id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES user(user_id),
+  recipe_id INTEGER NOT NULL REFERENCES recipe(recipe_id),
+  occasion_date DATE
+);
+
+CREATE TABLE ingredients (
+  ingredient_id SERIAL PRIMARY KEY,
+  name VARCHAR(20)
+);
+
+
