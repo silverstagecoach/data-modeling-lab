@@ -124,4 +124,15 @@ CREATE TABLE ingredients (
   name VARCHAR(20)
 );
 
+CREATE TABLE recipe_ingredients (
+  recipe_ingredients_id SERIAL PRIMARY KEY,
+  recipe_id INTEGER NOT NULL REFERENCES recipe(recipe_id),
+  ingredient_id INTEGER NOT NULL REFERENCES ingredients(ingredient_id),
+);
+
+CREATE TABLE grocery_list_ingredients (
+  grocery_list_ingredients_id SERIAL PRIMARY KEY,
+  grocery_list_id INTEGER NOT NULL REFERENCES grocery_list(grocery_list_id),
+  ingredient_id INTEGER NOT NULL REFERENCES ingredients(ingredient_id)
+);
 
